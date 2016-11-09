@@ -1,7 +1,7 @@
 # PREDICTION OF PROTEIN SUBCELLULAR LOCALIZATION
 
 ## Synopsis
-Convolutional Bidirectional LSTM with attention mechanism for predicting protein subcellular localization. The dataset used was from MultiLoc, which counts with 5959 proteins. 
+Convolutional Bidirectional LSTM with attention mechanism for predicting protein subcellular localization. The model was trained using the  MultiLoc dataset, which counts with 5959 proteins. 
 
 ## Author
 Jose Juan Almagro Armenteros, DTU Bioinformatics
@@ -10,7 +10,7 @@ Jose Juan Almagro Armenteros, DTU Bioinformatics
 
 There are two files in the data folder:
 	1) "test.npz" independent set to calculate the final performance of the model
-	2) "train.npz" training set 
+	2) "train.npz" training set.
 
 Each file includes a numpy array with the proteins sequences already encoded in profiles, a numpy array with the masks of each sequence and a numpy vector with the target of each protein.
 
@@ -18,7 +18,7 @@ Each file includes a numpy array with the proteins sequences already encoded in 
 
 The training is performed running the script "train.py". This is a minimal example:
 
-python train.py -i train.npz.gz -t test.npz.gz
+python train.py -i train.npz -t test.npz
 
 The default options are the optimals one, but the training will be really slow on CPU.
 
