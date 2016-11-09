@@ -4,7 +4,24 @@ import theano.tensor as T
 import lasagne
 from utils import LSTMAttentionDecodeFeedbackLayer, DropoutSeqPosLayer 
 
-def neural_network(batch_size, seq_len, n_hid, n_feat, n_class, lr, drop_per, drop_hid, n_filt):
+def neural_network(batch_size, n_hid, n_feat, n_class, lr, drop_per, drop_hid, n_filt):
+	"""Compile a Convolutional BLSTM neural network for protein subcellular localization
+	   
+	Parameters:
+		batch_size -- integer, minibatches size
+		n_hid -- integer, number of hidden neurons
+		n_feat -- integer, number of features encoded
+		n_class -- integer, number of classes to output
+		lr -- float, learning rate
+		drop_per -- float, input dropout
+		drop_hid -- float, hidden neurons dropout
+		n_filt -- integer, number of filter in the first convolutional layer
+
+	Outputs:
+		train_fn -- compiled theano function for training
+		val_fn -- compiled theano function for validation/testing
+		l_out -- output of the network, can be used to save the model parameters		
+	"""
 	# Prepare Theano variables for inputs, masks and targets
 	w_inits = lasagne.init.Orthogonal('relu')
 	input_var = T.tensor3('inputs')
@@ -15,7 +32,7 @@ def neural_network(batch_size, seq_len, n_hid, n_feat, n_class, lr, drop_per, dr
 	l_in = lasagne.layers.InputLayer(shape=(batch_size, None, n_feat), input_var=input_var)
 
 	# Dropout positions of the protein sequence	
-	l_indrop = lasagne.layers.DropoutSeqPosLayer(l_in, p=drop_per)
+	l_indrop = DropoutSeqPosLayer(l_in, p=drop_per)
 	
 	# Input layer with masks
 	l_mask = lasagne.layers.InputLayer(shape=(batch_size, None), input_var=mask_var)

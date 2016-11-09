@@ -5,33 +5,57 @@ import theano
 import theano.tensor as T
 import time
 import lasagne
+import argparse
 from metrics_mc import *
 from model import neural_network
 from confusionmatrix import ConfusionMatrix
 from utils import iterate_minibatches
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--trainset',  help="npz file with traning profiles data")
+parser.add_argument('-t', '--testset',  help="npz file with test profiles data to calculate final accuracy")
+parser.add_argument('-bs', '--batch_size',  help="Minibatch size, default = 128", default=128)
+parser.add_argument('-e', '--epochs',  help="Number of training epochs, default = 200", default=200)
+parser.add_argument('-n', '--n_filters',  help="Number of filters, default = 10", default=10)
+parser.add_argument('-lr', '--learning_rate',  help="Learning rate, default = 0.0005", default=0.0005)
+parser.add_argument('-id', '--in_dropout',  help="Input dropout, default = 0.2", default=0.2)
+parser.add_argument('-hd', '--hid_dropout',  help="Hidden layers dropout, default = 0.5", default=0.5)
+parser.add_argument('-hn', '--n_hid',  help="Number of hidden units, default = 256", default=256)
+parser.add_argument('-se', '--seed',  help="Seed for random number init., default = 123456", default=123456)
+args = parser.parse_args()
+
+if args.trainset == None or args.testset == None:
+	parser.print_help()
+	sys.stderr.write("Please specify training and test data file!\n")
+	sys.exit(1)
+
+
 # Input options
 n_class = 10
-batch_size = 128
+batch_size = args.batch_size
 seq_len = 1000
-n_hid = 256
-lr = 0.0005
-num_epochs = 200
-drop_per = 0.2
-drop_hid = 0.5
-n_filt = 10
+n_hid = args.n_hid
+lr = args.learning_rate
+num_epochs = args.epochs
+drop_per = args.in_dropout
+drop_hid = args.hid_dropout
+n_filt = args.n_filters
+
+theano.config.floatX='float32'
+lasagne.random.set_rng(np.random.RandomState(seed=args.seed))
+np.random.seed(seed=args.seed)
 
 # Load data
 print "Loading data...\n"
-test_data = np.load("data/test.npz")
-train_data = np.load("data/train.npz")
+test_data = np.load(args.testset)
+train_data = np.load(args.trainset)
 
 # Test set
 X_test = test_data['X_test']
 y_test = test_data['y_test']
 mask_test = test_data['mask_test']
 
-# Output vectors from test set
+# Initialize utput vectors from test set
 complete_alpha = np.zeros((X_test.shape[0],seq_len))
 complete_context = np.zeros((X_test.shape[0],n_hid*2))
 complete_test = np.zeros((X_test.shape[0],n_class))
@@ -49,7 +73,7 @@ n_feat = np.shape(X_test)[2]
 for i in range(1,5):
 	# Network compilation
 	print("Compilation model {}\n".format(i))
-	train_fn, val_fn, network_out = neural_network(batch_size, seq_len, n_hid, n_feat, n_class, lr, drop_per, drop_hid, n_filt)
+	train_fn, val_fn, network_out = neural_network(batch_size, n_hid, n_feat, n_class, lr, drop_per, drop_hid, n_filt)
 	
 	# Train and validation sets
 	train_index = np.where(partition != i)
@@ -120,7 +144,7 @@ for i in range(1,5):
 		test_context = np.array([], dtype=np.float32).reshape(0,n_hid*2)
 		test_pred = np.array([], dtype=np.float32).reshape(0,n_class)
 		
-		for batch in iterate_minibatches(X_test, y_test, mask_test, batch_size, shuffle=False, test=True):
+		for batch in iterate_minibatches(X_test, y_test, mask_test, batch_size, shuffle=False, sort_len=False):
 			inputs, targets, in_masks = batch
 			err, net_out, alpha, context = val_fn(inputs, targets, in_masks)
 			

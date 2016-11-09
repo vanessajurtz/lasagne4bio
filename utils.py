@@ -9,23 +9,48 @@ from lasagne.layers.base import Layer
 from lasagne.layers import helper
 from lasagne.layers import MergeLayer, Layer, InputLayer, DenseLayer, helper, Gate
 from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
+from lasagne.random import get_rng
 import random
 
-def iterate_minibatches(inputs, targets, masks, batchsize, shuffle=False, test=False):
+def iterate_minibatches(inputs, targets, masks, batchsize, shuffle=False, sort_len=True):
+    """ Generate minibatches of a specific size 
+
+    Arguments:
+    	inputs -- numpy array of the encoded protein data. Shape: (n_samples, seq_len, n_features)
+    	targets -- numpy array of the targets. Shape: (n_samples,)
+    	masks -- numpy array of the protein masks. Shape: (n_samples, seq_len)
+    	batchsize -- integer, number of samples in each minibatch.
+    	shuffle -- boolean, shuffle the samples in the minibatches. (default=False)
+    	sort_len -- boolean, sort the minibatches by sequence length (faster computation, just for training). (default=True) 
+
+    Outputs:
+	list of minibatches for protein sequences, targets and masks.
+	
+    """ 
     assert len(inputs) == len(targets)
+
+    # Calculate the sequence length of each sample
     len_seq = np.apply_along_axis(np.bincount, 1, masks.astype(np.int32))[:,-1]
-    if test:
-        indices = np.arange(len(inputs))
-    else:
+    
+    # Sort the sequences by length
+    if sort_len:
         indices = np.argsort(len_seq)
+    else:
+        indices = np.arange(len(inputs))
+
+    # Generate minibatches list
     f_idx = len(inputs) % batchsize
     idx_list = range(0, len(inputs) - batchsize + 1, batchsize)
     last_idx = None
     if f_idx != 0:
                 last_idx = idx_list[-1] + batchsize
                 idx_list.append(last_idx)
+    
+    # Shuffle the minibatches
     if shuffle:
         random.shuffle(idx_list)
+
+    # Split the data in minibatches
     for start_idx in idx_list:
                 if start_idx == last_idx:
                         rand_samp = batchsize - f_idx
@@ -34,21 +59,32 @@ def iterate_minibatches(inputs, targets, masks, batchsize, shuffle=False, test=F
                 else:
                         excerpt = indices[start_idx:start_idx + batchsize]
                 max_prot = np.amax(len_seq[excerpt])
-                if test:
-                        in_seq = inputs[excerpt]
-                        in_mask = masks[excerpt]
-                else:
+
+                # Crop batch to maximum sequence length
+		if sort_len:
                         in_seq = inputs[excerpt][:,:max_prot]
                         in_mask = masks[excerpt][:,:max_prot]
+                else:
+                        in_seq = inputs[excerpt]
+                        in_mask = masks[excerpt]
+
                 in_target = targets[excerpt]
                 shuf_ind = np.arange(batchsize)
-                if shuffle:
+                
+		# Shuffle samples within each minitbatch
+		if shuffle:
                         np.random.shuffle(shuf_ind)
+
+		# Return a minibatch of each array
                 yield in_seq[shuf_ind], in_target[shuf_ind], in_mask[shuf_ind]
 
 
 
 class DropoutSeqPosLayer(Layer):
+    """Dropout layer
+    Sets all values to zero in a position in the sequence with probability p. See notes for disabling dropout
+    during testing. 
+    """
     def __init__(self, incoming, p=0.5, **kwargs):
         super(DropoutSeqPosLayer, self).__init__(incoming, **kwargs)
         self._srng = RandomStreams(get_rng().randint(1, 2147462579))
