@@ -15,18 +15,11 @@ Please cite the following when using our code as template:
 
 ## Contributors
 
-Vanessa Isabell Jurtz, DTU Bioinformatics
-
-Alexander Rosenberg Johansen, DTU Compute
-
-Morten Nielsen, DTU Bioinformatics
-
-Jose Juan Almagro Armenteros, DTU Bioinformatics
-
-Henrik Nielsen, DTU Bioinformatics
-
-Casper Kaae Sønderby, University of Copenhagen
-
-Ole Winther, DTU Compute
-
-Søren Kaae Sønderby, University of Copenhagen
+Vanessa Isabell Jurtz, DTU Bioinformatics<br/>
+Alexander Rosenberg Johansen, DTU Compute<br/>
+Morten Nielsen, DTU Bioinformatics<br/>
+Jose Juan Almagro Armenteros, DTU Bioinformatics<br/>
+Henrik Nielsen, DTU Bioinformatics<br/>
+Casper Kaae Sønderby, University of Copenhagen<br/>
+Ole Winther, DTU Compute<br/>
+Søren Kaae Sønderby, University of Copenhagen<br/>
