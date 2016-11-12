@@ -66,12 +66,8 @@ run combine script:
 
 ## Contributors
 
-Vanessa Isabell Jurtz, DTU Bioinformatics
-
-Morten Nielsen, DTU Bioinformatics
-
-Casper Kaae Sønderby, University of Copenhagen
-
-Ole Winther, DTU Compute
-
-Søren Kaae Sønderby, University of Copenhagen
+Vanessa Isabell Jurtz, DTU Bioinformatics<br/>
+Morten Nielsen, DTU Bioinformatics<br/>
+Casper Kaae Sønderby, University of Copenhagen<br/>
+Ole Winther, DTU Compute<br/>
+Søren Kaae Sønderby, University of Copenhagen<br/>
