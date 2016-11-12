@@ -1,4 +1,4 @@
-## lasagne4bio
+# lasagne4bio
 
 This repository provides code examples to train neural networks for 3 biological seqeunce analysis problems:
 
