@@ -41,27 +41,23 @@ not give optimal performance.
 To predict networks you need to make a list of all networks in the ensemble you
 want to predcit:
 
-`echo "cnn_params_1.npz" > ensemble_list_cnn.txt`
-
+`echo "cnn_params_1.npz" > ensemble_list_cnn.txt`<br/>
 `echo "cnn_params_2.npz" >> ensemble_list_cnn.txt`
 
 
-`echo "lstm_params_1.npz" > ensemble_list_lstm.txt`
-
+`echo "lstm_params_1.npz" > ensemble_list_lstm.txt`<br/>
 `echo "lstm_params_2.npz" >> ensemble_list_lstm.txt`
 
 Then predict the networks:
 
-`python scripts/cnn_ensemble.py -data data/c004.bl.nc -data_aa data/c004 -ensemblelist ensemble_list_cnn.txt -out cnn_pred.txt`
-
+`python scripts/cnn_ensemble.py -data data/c004.bl.nc -data_aa data/c004 -ensemblelist ensemble_list_cnn.txt -out cnn_pred.txt`<br/>
 `python scripts/lstm_ensemble.py -data data/c004.bl.nc -data_aa data/c004 -ensemblelist ensemble_list_lstm.txt -out lstm_pred.txt`
 
 Combine ensembles with different network architecture:
 
 First make a list of the pred files and how they should be weighted:
 
-`echo -e "cnn_pred.txt\t1" > ensemble_list.txt`
-
+`echo -e "cnn_pred.txt\t1" > ensemble_list.txt`<br/>
 `echo -e "lstm_pred.txt\t1" >> ensemble_list.txt`
 
 run combine script:
