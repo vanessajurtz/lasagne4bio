@@ -53,7 +53,7 @@ Then predict the networks:
 `python scripts/cnn_ensemble.py -data data/c004.bl.nc -data_aa data/c004 -ensemblelist ensemble_list_cnn.txt -out cnn_pred.txt`<br/>
 `python scripts/lstm_ensemble.py -data data/c004.bl.nc -data_aa data/c004 -ensemblelist ensemble_list_lstm.txt -out lstm_pred.txt`
 
-Combine ensembles with different network architecture:
+###Combine ensembles with different network architecture:
 
 First make a list of the pred files and how they should be weighted:
 
