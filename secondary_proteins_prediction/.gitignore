@@ -1,0 +1,6 @@
+out*
+*.npy
+*.pkl
+*.pyc
+*.npy.gz
+*.csv
