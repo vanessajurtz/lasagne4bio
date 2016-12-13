@@ -9,7 +9,7 @@ class ConfusionMatrix:
     def __init__(self, num_classes, class_names=None):
         self.n_classes = num_classes
         if class_names is None:
-            self.class_names = map(str, range(num_classes))
+            self.class_names = list(map(str, range(num_classes)))
         else:
             self.class_names = class_names
 
@@ -62,8 +62,8 @@ class ConfusionMatrix:
         for i in range(len(targets)):
                 self.mat[targets[i], preds[i]] += 1
     def ret_mat(self):
-	return self.mat
- 
+        return self.mat
+
     def get_errors(self):
         tp = np.asarray(np.diag(self.mat).flatten(),dtype='float')
         fn = np.asarray(np.sum(self.mat, axis=1).flatten(),dtype='float') - tp
@@ -135,10 +135,10 @@ class ConfusionMatrix:
         return res
     def OMCC(self):
         tp, tn, fp, fn = self.get_errors()
-	tp = np.sum(tp)
-	tn = np.sum(tn)
-	fp = np.sum(fp)
-	fn = np.sum(fn)
+        tp = np.sum(tp)
+        tn = np.sum(tn)
+        fp = np.sum(fp)
+        fn = np.sum(fn)
         numerator = tp*tn - fp*fn
         denominator = np.sqrt((tp + fp)*(tp + fn)*(tn + fp)*(tn + fn))
         res = numerator / denominator
