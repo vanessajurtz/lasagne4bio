@@ -12,6 +12,19 @@ Please find detailed instructions in the respective directories.
 
 All data sets are either included in the repositroy or links are provided to download them.
 
+## Jupyter notebooks
+
+In the directory `subcellular_localization` there are four tutorials on how to train four different types of neural networks for protein subcellular localization prediction:
+
+ - Feedforward neural network
+ - Convolutional neural network
+ - Convolutional LSTM neural network
+ - Convolutional LSTM neural network with attention mechanism
+
+The dataset used for this tutorial is a reduced version of the original one, only with proteins shorter than 400 amino acids. This is done to save computational time, as here the main focus is to show how the network is built.
+
+There is an additional tutorial on how to load the trained models and a comparison of their performances.
+
 ## Dependencies
 
 All code was written in python programming language version 2.7. Neural networks are implemented using the lasagne library, please find installation instructions here: [https://lasagne.readthedocs.io/en/latest/user/installation.html](https://lasagne.readthedocs.io/en/latest/user/installation.html).<br/>
@@ -29,6 +42,7 @@ The libraries used in this code are:
 - itertools
 - lasagne
 - math
+- matplotlib
 - numpy
 - operator
 - os

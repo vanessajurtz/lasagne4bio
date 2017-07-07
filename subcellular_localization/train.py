@@ -32,14 +32,14 @@ if args.trainset == None or args.testset == None:
 
 # Input options
 n_class = 10
-batch_size = args.batch_size
+batch_size = int(args.batch_size)
 seq_len = 1000
-n_hid = args.n_hid
-lr = args.learning_rate
-num_epochs = args.epochs
-drop_per = args.in_dropout
-drop_hid = args.hid_dropout
-n_filt = args.n_filters
+n_hid = int(args.n_hid)
+lr = float(args.learning_rate)
+num_epochs = int(args.epochs)
+drop_per = float(args.in_dropout)
+drop_hid = float(args.hid_dropout)
+n_filt = int(args.n_filters)
 
 theano.config.floatX='float32'
 lasagne.random.set_rng(np.random.RandomState(seed=args.seed))
