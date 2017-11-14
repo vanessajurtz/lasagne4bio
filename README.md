@@ -1,6 +1,6 @@
 # lasagne4bio
 
-This repository provides code examples to train neural networks for 3 biological seqeunce analysis problems:
+This repository provides code examples to train neural networks for 3 biological sequence analysis problems:
 
 - subcellular localization
 - secondary structure
