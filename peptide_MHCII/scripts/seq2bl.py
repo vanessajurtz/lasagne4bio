@@ -38,7 +38,7 @@ def read_blosum(filename):
         if l[0] == '#':
             l = l.strip("#")
             l = l.split(" ")
-            l = filter(None, l)
+            l = list(filter(None, l))
             if l[0] == "A":
                 try:
                     B_idx = l.index('B')
@@ -55,7 +55,7 @@ def read_blosum(filename):
                 star_idx = l.index('*')
         else:
             l = l.split(" ")
-            l = filter(None, l)
+            l = list(filter(None, l))
             aa = str(l[0])
             if (aa != 'B') & (aa != 'J') & (aa != 'Z') & (aa != '*'):
                 tmp = l[1:len(l)]
@@ -93,7 +93,7 @@ def read_MHC_pseudo_seq(filename):
         l=tmp.split(" ")
         if len(l) < 2:
             l=tmp.split("\t")
-        l=filter(None, l)
+        l=list(filter(None, l))
 
         mhc[l[0]]=l[1]
         if mhc_seq_len == None:
@@ -206,7 +206,7 @@ pep_seqs=[]
 mhc_seqs=[]
 tmp_targets=[]
 for l in infile:
-    l=filter(None, l.strip().split())
+    l=list(filter(None, l.strip().split()))
     # #exclude peptides longer than 20 AA
     # if len(l[0]) <= 20:
     n_pep += 1

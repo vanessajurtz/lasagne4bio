@@ -682,7 +682,7 @@ def get_pep_aa_mhc(filename, MAX_PEP_SEQ_LEN):
     infile = open(filename, "r")
 
     for l in infile:
-        l=filter(None, l.strip().split())
+        l=list(filter(None, l.strip().split()))
         if len(l[0]) <= MAX_PEP_SEQ_LEN:
             pep_aa.append(l[0])
             mhc_molecule.append(l[2])
@@ -706,7 +706,7 @@ def read_mhc_list(filename, mhc_allowed):
     infile = open(filename, "r")
 
     for l in infile:
-        l=filter(None, l.strip().split())
+        l=list(filter(None, l.strip().split()))
         if l[0] in mhc_allowed:
             X_mhc.append(l[1])
             mhc_molecule.append(l[0])
@@ -755,7 +755,7 @@ def get_pep_mhc_target(filename, MAX_PEP_SEQ_LEN):
     infile = open(filename, "r")
 
     for l in infile:
-        l=filter(None, l.strip().split())
+        l=list(filter(None, l.strip().split()))
         if len(l[0]) <= MAX_PEP_SEQ_LEN:
             pep_aa.append(l[0])
             mhc_molecule.append(l[2])
@@ -789,7 +789,7 @@ def read_blosum(filename):
         if l[0] == '#':
             l = l.strip("#")
             l = l.split(" ")
-            l = filter(None, l)
+            l = list(filter(None, l))
             if l[0] == "A":
                 try:
                     B_idx = l.index('B')
@@ -806,7 +806,7 @@ def read_blosum(filename):
                 star_idx = l.index('*')
         else:
             l = l.split(" ")
-            l = filter(None, l)
+            l = list(filter(None, l))
             aa = str(l[0])
             if (aa != 'B') & (aa != 'J') & (aa != 'Z') & (aa != '*'):
                 tmp = l[1:len(l)]
@@ -850,7 +850,7 @@ def read_blosum_np(filename):
         if l[0] == '#':
             l = l.strip("#")
             l = l.split(" ")
-            l = filter(None, l)
+            l = list(filter(None, l))
             if l[0] == "A":
                 try:
                     B_idx = l.index('B')
@@ -867,7 +867,7 @@ def read_blosum_np(filename):
                 star_idx = l.index('*')
         else:
             l = l.split(" ")
-            l = filter(None, l)
+            l = list(filter(None, l))
             aa = str(l[0])
             if (aa != 'B') & (aa != 'J') & (aa != 'Z') & (aa != '*'):
                 tmp = l[1:len(l)]
@@ -908,7 +908,7 @@ def read_blosum_MN(filename):
         l = l.strip()
 
         if l[0] != '#':
-            l= filter(None,l.strip().split(" "))
+            l= list(filter(None,l.strip().split(" ")))
 
             if (l[0] == 'A') and (B_idx==99):
                 B_idx = l.index('B')
@@ -954,7 +954,7 @@ def read_real_blosum(filename):
         l = l.strip()
 
         if l[0] != '#':
-            l= filter(None,l.strip().split(" "))
+            l= list(filter(None,l.strip().split(" ")))
 
             if l[0]=='A':
                 AA=l
@@ -984,7 +984,7 @@ def read_MHC_pseudo_seq(filename):
     for l in mhcfile:
         l=l.strip()
         l=l.split("\t")
-        l=filter(None, l)
+        l=list(filter(None, l))
 
         mhc[l[0]]=l[1]
         if mhc_seq_len == None:
